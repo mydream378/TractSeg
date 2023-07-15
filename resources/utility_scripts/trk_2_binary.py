@@ -84,8 +84,14 @@ if __name__ == '__main__':
 
     # Remember: Does not count if a fibers has no node inside of a voxel -> upsampling helps, but not perfect
     # Counts the number of unique streamlines that pass through each voxel -> oversampling does not distort result
-    dm = utils_trk.density_map(streamlines, ref_shape, affine=ref_affine)
+    dm = utils_trk.density_map(streamlines, ref_affine,ref_shape)
+    
+# https://github.com/dipy/dipy/blob/master/dipy/tracking/utils.py
+# def density_map(streamlines,  affine, vol_dims):
+#  from the link above, the order of parameter in "density_map" was updated (affine is now the 2nd parameter), we have to change it before using this trk_2_binary.py   
+# otherwise,unexpected errors could occur
 
+    
     # Create Binary Map
     dm_binary = dm > 0  # Using higher Threshold problematic, because tends to remove valid parts (sparse fibers)
     dm_binary_c = dm_binary
